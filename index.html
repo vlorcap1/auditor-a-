@@ -1,0 +1,2155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEREMI Auditoría — Protocolo de Asunción de Cargo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F5F0E8;
+  --cream2: #EDE7D8;
+  --cream3: #E0D8C8;
+  --ink: #1A1612;
+  --ink2: #3A332B;
+  --ink3: #6B5F52;
+  --rust: #C4441C;
+  --rust2: #9B3515;
+  --rust-light: #F2E4DD;
+  --gold: #B8860B;
+  --gold-light: #F5EDD0;
+  --green: #2A5C45;
+  --green-light: #D8EDE5;
+  --blue: #1B3E6B;
+  --blue-light: #D8E6F5;
+  --border: #C8BFB0;
+  --border2: #DDD5C8;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  min-height: 100vh;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content:'';
+  position: fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9999;
+}
+
+/* ══════════════════════════════════
+   SETUP SCREEN
+══════════════════════════════════ */
+#setup-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--cream);
+  position: relative;
+}
+
+.setup-card {
+  width: 100%;
+  max-width: 680px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  box-shadow: 8px 8px 0 var(--cream3);
+  overflow: hidden;
+}
+
+.setup-header {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 2.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.setup-header::after {
+  content: '';
+  position: absolute;
+  right: -40px; top: -40px;
+  width: 200px; height: 200px;
+  border: 2px solid rgba(245,240,232,0.1);
+  border-radius: 50%;
+}
+.setup-header::before {
+  content: '';
+  position: absolute;
+  right: 20px; top: 20px;
+  width: 120px; height: 120px;
+  border: 1px solid rgba(245,240,232,0.06);
+  border-radius: 50%;
+}
+
+.setup-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: rgba(245,240,232,0.5);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.setup-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.setup-subtitle {
+  font-size: 0.88rem;
+  color: rgba(245,240,232,0.65);
+  line-height: 1.7;
+}
+
+.setup-body {
+  padding: 2.5rem 3rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 0.5rem;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: var(--rust);
+  background: white;
+}
+
+.form-input::placeholder { color: var(--ink3); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.btn-start {
+  width: 100%;
+  padding: 1rem;
+  background: var(--rust);
+  color: white;
+  border: none;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+
+.btn-start:hover { background: var(--rust2); }
+.btn-start:active { transform: scale(0.99); }
+
+/* ══════════════════════════════════
+   MAIN AUDIT INTERFACE
+══════════════════════════════════ */
+#audit-screen { display: none; }
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--ink);
+  color: var(--cream);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+}
+
+.sidebar-brand {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: rgba(245,240,232,0.4);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.sidebar-seremi-name {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+}
+
+.sidebar-meta {
+  font-size: 0.75rem;
+  color: rgba(245,240,232,0.5);
+}
+
+.sidebar-progress {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.progress-text {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: rgba(245,240,232,0.5);
+}
+
+.progress-pct {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--cream);
+}
+
+.progress-track {
+  height: 3px;
+  background: rgba(245,240,232,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #C4441C;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0.75rem 0;
+}
+
+.nav-section-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: rgba(245,240,232,0.25);
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem 0.35rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 2px solid transparent;
+}
+
+.nav-item:hover { background: rgba(245,240,232,0.05); }
+
+.nav-item.active {
+  background: rgba(245,240,232,0.08);
+  border-left-color: var(--rust);
+}
+
+.nav-item.completed .nav-num { background: var(--green); color: white; }
+
+.nav-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(245,240,232,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.nav-item.active .nav-num { background: var(--rust); }
+
+.nav-label {
+  font-size: 0.8rem;
+  color: rgba(245,240,232,0.7);
+  line-height: 1.3;
+}
+
+.nav-item.active .nav-label { color: var(--cream); }
+
+.nav-check {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--green);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.nav-item.completed .nav-check { opacity: 1; }
+
+.sidebar-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(245,240,232,0.08);
+}
+
+.btn-export {
+  width: 100%;
+  padding: 0.7rem;
+  background: transparent;
+  border: 1px solid rgba(245,240,232,0.2);
+  border-radius: 2px;
+  color: rgba(245,240,232,0.7);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-export:hover {
+  background: rgba(245,240,232,0.08);
+  color: var(--cream);
+  border-color: rgba(245,240,232,0.4);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  background: var(--cream);
+  overflow-y: auto;
+}
+
+.content-panel {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.content-panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-header {
+  background: white;
+  border-bottom: 1px solid var(--border2);
+  padding: 2rem 2.5rem 1.75rem;
+  position: sticky; top: 0; z-index: 10;
+}
+
+.panel-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--rust);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+
+.panel-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 1px;
+  background: var(--rust);
+}
+
+.panel-title {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.panel-desc {
+  font-size: 0.85rem;
+  color: var(--ink3);
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+.panel-body {
+  padding: 2rem 2.5rem;
+  max-width: 860px;
+}
+
+/* CHECKLIST ITEMS */
+.check-block {
+  margin-bottom: 2rem;
+}
+
+.check-block-title {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  border-bottom: 1px solid var(--border2);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.check-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: white;
+  border: 1px solid var(--border2);
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.check-item-row:hover { border-color: var(--border); }
+
+.check-item-row.done {
+  background: var(--green-light);
+  border-color: rgba(42,92,69,0.2);
+}
+
+.check-item-row.flagged-item {
+  background: #FDF3F0;
+  border-color: rgba(196,68,28,0.25);
+}
+
+.check-cb {
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  background: white;
+}
+
+.check-item-row.done .check-cb {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.check-item-row.done .check-cb::after {
+  content: '✓';
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.check-item-row.flagged-item .check-cb {
+  background: var(--rust);
+  border-color: var(--rust);
+}
+
+.check-item-row.flagged-item .check-cb::after {
+  content: '!';
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.check-item-content { flex: 1; }
+
+.check-item-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+  line-height: 1.4;
+}
+
+.check-item-row.done .check-item-title { color: var(--green); }
+
+.check-item-desc {
+  font-size: 0.78rem;
+  color: var(--ink3);
+  line-height: 1.6;
+}
+
+.check-item-meta {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+}
+
+.chip-red { background: var(--rust-light); color: var(--rust2); border-color: rgba(196,68,28,0.2); }
+.chip-gold { background: var(--gold-light); color: var(--gold); border-color: rgba(184,134,11,0.2); }
+.chip-blue { background: var(--blue-light); color: var(--blue); border-color: rgba(27,62,107,0.2); }
+.chip-green { background: var(--green-light); color: var(--green); border-color: rgba(42,92,69,0.2); }
+.chip-gray { background: var(--cream2); color: var(--ink3); border-color: var(--border); }
+
+.check-item-flag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.flag-btn {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink3);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.flag-btn:hover { border-color: var(--rust); color: var(--rust); background: var(--rust-light); }
+.check-item-row.flagged-item .flag-btn { 
+  background: var(--rust-light); 
+  border-color: var(--rust); 
+  color: var(--rust);
+}
+
+/* NOTES BOX */
+.note-box {
+  background: white;
+  border: 1px solid var(--border2);
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+.note-box-header {
+  padding: 0.75rem 1rem;
+  background: var(--cream2);
+  border-bottom: 1px solid var(--border2);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.note-textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: none;
+  outline: none;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: white;
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.7;
+}
+
+.note-textarea::placeholder { color: var(--ink3); }
+
+/* DOCUMENT UPLOAD AREA */
+.doc-area {
+  border: 1.5px dashed var(--border);
+  border-radius: 2px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.doc-area:hover { border-color: var(--rust); background: var(--rust-light); }
+
+.doc-area-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+.doc-area-text {
+  font-size: 0.8rem;
+  color: var(--ink3);
+  line-height: 1.6;
+}
+
+.doc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--green-light);
+  border: 1px solid rgba(42,92,69,0.2);
+  border-radius: 2px;
+  font-size: 0.8rem;
+  color: var(--green);
+}
+
+.doc-item-icon { font-size: 0.9rem; }
+
+/* ALERT BOXES */
+.alert {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  border: 1px solid;
+  font-size: 0.83rem;
+  line-height: 1.7;
+}
+
+.alert-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+.alert-red { background: var(--rust-light); border-color: rgba(196,68,28,0.3); color: var(--rust2); }
+.alert-gold { background: var(--gold-light); border-color: rgba(184,134,11,0.3); color: var(--gold); }
+.alert-green { background: var(--green-light); border-color: rgba(42,92,69,0.3); color: var(--green); }
+.alert-blue { background: var(--blue-light); border-color: rgba(27,62,107,0.3); color: var(--blue); }
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border2);
+  margin: 1.75rem 0;
+}
+
+/* PANEL NAV BUTTONS */
+.panel-nav {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid var(--border2);
+  background: white;
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+}
+
+.btn-prev {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-prev:hover { border-color: var(--ink2); color: var(--ink); }
+
+.btn-next {
+  padding: 0.75rem 1.75rem;
+  background: var(--rust);
+  border: 1px solid var(--rust);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-next:hover { background: var(--rust2); border-color: var(--rust2); }
+
+.btn-complete {
+  padding: 0.75rem 1.75rem;
+  background: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-complete:hover { opacity: 0.9; }
+
+/* SUMMARY TABLE */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-table th {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-align: left;
+  padding: 0.6rem 1rem;
+  background: var(--cream2);
+  border: 1px solid var(--border2);
+}
+
+.summary-table td {
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border2);
+  background: white;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.summary-table tr.risk-alto td { background: #FEF2EF; }
+.summary-table tr.risk-medio td { background: #FFFBEF; }
+.summary-table tr.risk-bajo td { background: var(--green-light); }
+
+.risk-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.risk-alto { background: var(--rust-light); color: var(--rust2); border: 1px solid rgba(196,68,28,0.2); }
+.risk-medio { background: var(--gold-light); color: var(--gold); border: 1px solid rgba(184,134,11,0.2); }
+.risk-bajo { background: var(--green-light); color: var(--green); border: 1px solid rgba(42,92,69,0.2); }
+
+/* GRID CARDS */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid var(--border2);
+  border-radius: 2px;
+  padding: 1.25rem;
+  transition: border-color 0.15s;
+}
+
+.info-card:hover { border-color: var(--border); }
+
+.info-card-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 0.5rem;
+}
+
+.info-card-value {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.info-card-sub { font-size: 0.75rem; color: var(--ink3); }
+
+.info-card.red .info-card-value { color: var(--rust); }
+.info-card.gold .info-card-value { color: var(--gold); }
+.info-card.green .info-card-value { color: var(--green); }
+
+/* STEP INDICATOR */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 1.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.step-dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 80px;
+  cursor: pointer;
+}
+
+.step-circle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--cream2);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--ink3);
+  transition: all 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.step-dot.current .step-circle { background: var(--rust); border-color: var(--rust); color: white; }
+.step-dot.done .step-circle { background: var(--green); border-color: var(--green); color: white; }
+
+.step-lbl {
+  font-size: 0.68rem;
+  color: var(--ink3);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.step-dot.current .step-lbl { color: var(--rust); font-weight: 500; }
+.step-dot.done .step-lbl { color: var(--green); }
+
+.step-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+  margin-top: -14px;
+}
+
+.step-line.done-line { background: var(--green); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .app-layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+  .panel-body { padding: 1.5rem; }
+  .panel-header { padding: 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* PRINT REPORT */
+@media print {
+  .sidebar, .panel-nav, .btn-export, .flag-btn, .doc-area { display: none !important; }
+  .app-layout { grid-template-columns: 1fr; }
+  .content-panel { display: block !important; }
+}
+
+/* SELECT CUSTOM ARROW */
+.select-wrapper { position: relative; }
+.select-wrapper::after {
+  content: '▾';
+  position: absolute;
+  right: 1rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink3);
+  pointer-events: none;
+  font-size: 0.75rem;
+}
+
+/* FINDINGS COUNTER */
+.findings-bar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid var(--border2);
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.findings-num {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.findings-label {
+  font-size: 0.78rem;
+  color: var(--ink3);
+}
+
+.findings-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--border2);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     SETUP SCREEN
+═══════════════════════════════ -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-header">
+      <div class="setup-eyebrow">República de Chile · Gobierno Regional del Maule</div>
+      <h1 class="setup-title">Protocolo de<br>Auditoría SEREMI</h1>
+      <p class="setup-subtitle">Herramienta de asunción de cargo para nuevas autoridades regionales. Guía su proceso de auditoría desde el primer día, con checklists, registro de hallazgos e informe final exportable.</p>
+    </div>
+    <div class="setup-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre del SEREMI entrante</label>
+          <input class="form-input" id="inp-nombre" placeholder="Nombre completo" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha de asunción</label>
+          <input class="form-input" id="inp-fecha" type="date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ministerio / Secretaría Regional</label>
+        <div class="select-wrapper">
+          <select class="form-select" id="inp-ministerio">
+            <option value="">— Seleccionar ministerio —</option>
+            <option>Vivienda y Urbanismo (MINVU)</option>
+            <option>Salud (MINSAL)</option>
+            <option>Educación (MINEDUC)</option>
+            <option>Obras Públicas (MOP)</option>
+            <option>Desarrollo Social y Familia (MDSF)</option>
+            <option>Agricultura (MINAGRI)</option>
+            <option>Trabajo y Previsión Social</option>
+            <option>Economía, Fomento y Turismo</option>
+            <option>Medio Ambiente</option>
+            <option>Transportes y Telecomunicaciones (MTT)</option>
+            <option>Energía</option>
+            <option>Justicia y Derechos Humanos</option>
+            <option>Interior y Seguridad Pública</option>
+            <option>SERVIU Maule</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre del SEREMI saliente</label>
+          <input class="form-input" id="inp-saliente" placeholder="Si aplica" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región</label>
+          <div class="select-wrapper">
+            <select class="form-select" id="inp-region">
+              <option>Región del Maule (VII)</option>
+              <option>Otra región</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="btn-start" onclick="startAudit()">▶ INICIAR PROTOCOLO DE AUDITORÍA</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     MAIN AUDIT INTERFACE
+═══════════════════════════════ -->
+<div id="audit-screen">
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">Auditoría · Asunción de Cargo</div>
+        <div class="sidebar-seremi-name" id="sb-name">—</div>
+        <div class="sidebar-meta" id="sb-meta">—</div>
+      </div>
+
+      <div class="sidebar-progress">
+        <div class="progress-label">
+          <span class="progress-text">AVANCE GENERAL</span>
+          <span class="progress-pct" id="pct-label">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-bar" id="main-progress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Fases del Protocolo</div>
+
+        <div class="nav-item active" onclick="goToPanel(0)" id="nav-0">
+          <div class="nav-num">1</div>
+          <div class="nav-label">Recepción y diagnóstico inicial</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(1)" id="nav-1">
+          <div class="nav-num">2</div>
+          <div class="nav-label">Contratos y licitaciones</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(2)" id="nav-2">
+          <div class="nav-num">3</div>
+          <div class="nav-label">Convenios con privados</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(3)" id="nav-3">
+          <div class="nav-num">4</div>
+          <div class="nav-label">Recursos humanos y dotación</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(4)" id="nav-4">
+          <div class="nav-num">5</div>
+          <div class="nav-label">Probidad y transparencia</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(5)" id="nav-5">
+          <div class="nav-num">6</div>
+          <div class="nav-label">Situación financiera y presupuesto</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(6)" id="nav-6">
+          <div class="nav-num">7</div>
+          <div class="nav-label">Causas legales y sumarios</div>
+          <span class="nav-check">✓</span>
+        </div>
+        <div class="nav-item" onclick="goToPanel(7)" id="nav-7">
+          <div class="nav-num">8</div>
+          <div class="nav-label">Informe y plan de acción</div>
+          <span class="nav-check">✓</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-export" onclick="exportReport()">↓ EXPORTAR INFORME PDF</button>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="main-content" id="main-content">
+
+      <!-- ─── PANEL 0: RECEPCIÓN ─── -->
+      <div class="content-panel active" id="panel-0">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 1 de 8</div>
+          <h2 class="panel-title">Recepción y diagnóstico inicial</h2>
+          <p class="panel-desc">Primeras 48 horas. Solicite y revise los documentos de traspaso, actas de la administración anterior y el estado general del servicio.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="alert alert-red">
+            <span class="alert-icon">⚠</span>
+            <div><strong>Contexto Maule 2026:</strong> El proceso de traspaso fue interrumpido a nivel nacional. Exija por escrito toda información que el SEREMI saliente debía entregar según el Reglamento de Traspaso (D.S. 271/2014 del Ministerio del Interior). Si hay negativa, use el Canal de Ley de Transparencia inmediatamente.</div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Documentos a recibir formalmente</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Acta de traspaso firmada por SEREMI saliente</div>
+                <div class="check-item-desc">Documento formal que certifica la entrega del cargo. Debe incluir estado de convenios, contratos, personal y situación financiera. Exigir incluso si el traspaso fue interrumpido.</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-red">URGENTE</span>
+                  <span class="chip chip-gray">D.S. 271/2014</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Inventario físico de bienes e infraestructura</div>
+                <div class="check-item-desc">Listado firmado de vehículos, equipos, mobiliario y bienes inmuebles bajo responsabilidad de la SEREMI.</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-gold">PRIORITARIO</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Estado de ejecución presupuestaria al día de asunción</div>
+                <div class="check-item-desc">Solicitar resumen por subtítulo (21 personal, 22 bienes y servicios, 24 transferencias, 29 adquisición activos). Comparar con Ley de Presupuestos vigente.</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-red">URGENTE</span>
+                  <span class="chip chip-gray">DIPRES</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Listado de todos los contratos vigentes (bienes, servicios, obras)</div>
+                <div class="check-item-desc">Con proveedor, monto, fecha inicio y término, estado de cumplimiento y garantías vigentes.</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-red">URGENTE</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Listado de convenios con fundaciones y ONG vigentes</div>
+                <div class="check-item-desc">Con entidad ejecutora, monto, objeto, estado de rendición de cuentas. Contexto Maule: caso Urbanismo Social ($577M investigado por Fiscalía).</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-red">URGENTE</span>
+                  <span class="chip chip-red">CASO ACTIVO MAULE</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Dotación completa de personal (planta, contrata, honorarios)</div>
+                <div class="check-item-desc">Con grado, remuneración, tipo de contrato y fecha de vencimiento. Identificar honorarios incorporados en últimos 90 días.</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-gold">PRIORITARIO</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Causas judiciales, sumarios y recursos administrativos pendientes</div>
+                <div class="check-item-desc">Cualquier causa activa en Contraloría, Fiscalía o tribunales que involucre a la SEREMI o sus funcionarios.</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-red">URGENTE</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Primeras acciones administrativas</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Emitir resolución de asunción de cargo y publicar en Diario Oficial</div>
+                <div class="check-item-desc">Acto administrativo que formaliza el inicio de sus funciones. Requiere firma del Ministro titular.</div>
+                <div class="check-item-meta"><span class="chip chip-red">DÍA 1</span></div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Cambiar claves de acceso a todos los sistemas informáticos</div>
+                <div class="check-item-desc">SIGFE, Mercado Público, sistemas de beneficiarios, correo institucional. Revocar accesos del SEREMI saliente y su equipo de confianza política.</div>
+                <div class="check-item-meta"><span class="chip chip-red">DÍA 1-2</span></div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Reunión con jefes de departamento clave</div>
+                <div class="check-item-desc">Administración, Jurídica, Técnica y Unidad de Recursos Humanos. Solicitar informe verbal del estado operacional.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">SEMANA 1</span></div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Presentar Declaración de Intereses y Patrimonio en Contraloría</div>
+                <div class="check-item-desc">Plazo: 30 días desde la asunción del cargo. Usar sistema SIAPER de Contraloría (siaper.contraloria.cl).</div>
+                <div class="check-item-meta">
+                  <span class="chip chip-blue">PLAZO 30 DÍAS</span>
+                  <span class="chip chip-gray">Art. 60 Ley 18.575</span>
+                </div>
+              </div>
+              <div class="check-item-flag">
+                <button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Recepción y diagnóstico</div>
+            <textarea class="note-textarea" id="note-0" placeholder="Registre aquí sus observaciones del primer día: documentos no entregados, resistencias encontradas, situaciones de riesgo inmediato..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-next" onclick="goToPanel(1)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 1: CONTRATOS ─── -->
+      <div class="content-panel" id="panel-1">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 2 de 8</div>
+          <h2 class="panel-title">Contratos y licitaciones</h2>
+          <p class="panel-desc">Revisión de todo el historial de compras públicas. Detecte adjudicaciones irregulares, fraccionamientos y proveedores recurrentes.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="alert alert-gold">
+            <span class="alert-icon">🔍</span>
+            <div><strong>Herramienta clave:</strong> Ingrese a <strong>mercadopublico.cl</strong> → Consultas → Licitaciones y filtre por RUT de su SEREMI. Exporte CSV de los últimos 5 años para análisis. Use también la API pública: <em>api.mercadopublico.cl/servicios/v1/publico/licitaciones</em></div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Revisión de contratos vigentes</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Levantar listado de contratos activos con monto, vigencia y proveedor</div>
+                <div class="check-item-desc">Fuente: Mercado Público + registros internos contabilidad. Verificar si están publicados correctamente.</div>
+                <div class="check-item-meta"><span class="chip chip-red">SEMANA 1</span><span class="chip chip-gray">ChileCompra</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar garantías (boletas de fiel cumplimiento) vigentes</div>
+                <div class="check-item-desc">Todo contrato sobre 1.000 UTM debe tener boleta vigente. Revisar archivo físico y digital. Si alguna venció, el proveedor está en mora.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar modificaciones contractuales (addendas) de los últimos 12 meses</div>
+                <div class="check-item-desc">Las addendas que aumentan monto o plazo deben ser proporcionales y justificadas. Ampliar un contrato más del 30% sin nueva licitación es señal de riesgo.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Auditar multas e incumplimientos contractuales no cobrados</div>
+                <div class="check-item-desc">Si un proveedor incumplió plazos o calidad, ¿se aplicaron las multas estipuladas? La no-aplicación de multas es una irregularidad administrativa frecuente.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Detección de irregularidades en adjudicación</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Identificar proveedores adjudicados de forma reiterada en trato directo</div>
+                <div class="check-item-desc">Más de 3 tratos directos con el mismo proveedor en un año es señal de alerta. Verificar justificación legal de cada uno (causales Art. 8 Ley 19.886).</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span><span class="chip chip-gray">Ley 19.886</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Detectar fraccionamiento de compras para evadir umbrales de licitación</div>
+                <div class="check-item-desc">Órdenes de compra al mismo proveedor en el mismo mes que juntas superan umbral de LP o LE. Patrón: 3–4 OC de $990.000 en vez de una de $4M que exigiría propuesta pública.</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar vínculos entre funcionarios evaluadores y proveedores adjudicados</div>
+                <div class="check-item-desc">Cruzar nombres de comisiones evaluadoras con RUT de proveedores y sus socios/representantes (registro SII). Buscar también vínculos familiares o laborales anteriores.</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span><span class="chip chip-gray">Probidad</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar bases de licitación diseñadas a medida (cláusulas restrictivas)</div>
+                <div class="check-item-desc">Identificar bases con requisitos específicos que solo puede cumplir un proveedor. Señal: pocas ofertas recibidas (1–2) en licitaciones de alto monto.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Auditar contratos firmados en los últimos 90 días del gobierno anterior</div>
+                <div class="check-item-desc">Contratos de largo plazo (más de 2 años) firmados en el período de salida pueden ser "amarres". Verificar justificación, urgencia y si existe resolución de autorización.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">CONTEXTO 2026</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Contratos y licitaciones</div>
+            <textarea class="note-textarea" id="note-1" placeholder="Proveedores sospechosos, montos irregulares, contratos que requieren revisión urgente..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(0)">← ANTERIOR</button>
+          <button class="btn-next" onclick="goToPanel(2)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 2: CONVENIOS ─── -->
+      <div class="content-panel" id="panel-2">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 3 de 8</div>
+          <h2 class="panel-title">Convenios con privados</h2>
+          <p class="panel-desc">Área de máximo riesgo en el Maule. Revisión exhaustiva de transferencias a fundaciones, ONG y corporaciones privadas.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="alert alert-red">
+            <span class="alert-icon">⚠</span>
+            <div><strong>Alerta Maule:</strong> La SEREMI MINVU Maule transfirió $109M a Fundación Urbanismo Social con conflicto de interés documentado. El GORE transfirió $262M más. La Fiscalía Regional investiga 8 transferencias. Si su SEREMI tiene convenios con esta fundación u ONG Sur Maule, trátelos como caso activo.</div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Levantamiento de convenios</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Levantar listado completo de convenios con privados (2020–2026)</div>
+                <div class="check-item-desc">Incluir: entidad receptora, RUT, monto, fecha firma, objeto, estado de rendición. Fuente: registros internos + Registro Central Hacienda (www.registros19862.minhac.cl).</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">Ley 19.862</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar publicación en Registro Central de Colaboradores del Estado</div>
+                <div class="check-item-desc">Cada transferencia debe estar registrada. La ausencia es una infracción a la Ley 19.862 y fue el principal hallazgo de Contraloría en la SEREMI MINVU Maule.</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar giro SII de entidades ejecutoras a la fecha de firma</div>
+                <div class="check-item-desc">Consultar RUT en sii.cl → Consulta de actividades económicas. Si el giro no era compatible con el objeto del convenio al día de firma: irregularidad grave (patrón detectado en Maule).</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span><span class="chip chip-gray">SII</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar vínculos laborales de funcionarios firmantes con entidades receptoras</div>
+                <div class="check-item-desc">Comparar historial laboral de quienes firmaron convenios con los directivos de las fundaciones. Revisar Declaraciones de Interés en SIAPER (contraloria.cl).</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span><span class="chip chip-gray">Probidad</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar que convenios incluyan cláusulas de conflicto de interés</div>
+                <div class="check-item-desc">Contraloría detectó en 15 regiones que convenios MINVU "carecen de cláusulas sobre conflicto de intereses". Es un incumplimiento normativo que puede viciar el contrato.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar rendiciones de cuentas y estado de fondos pendientes de restitución</div>
+                <div class="check-item-desc">Si hay fondos entregados sin rendición aprobada, la entidad ejecutora está en mora. Notificar formalmente y activar cobro si corresponde.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar actas de comisiones evaluadoras de todos los convenios</div>
+                <div class="check-item-desc">Deben existir, estar firmadas y archivadas. Su ausencia es una irregularidad administrativa grave detectada por Contraloría (ONG Sur Maule, Maule).</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Convenios con privados</div>
+            <textarea class="note-textarea" id="note-2" placeholder="Fundaciones encontradas, montos sin rendir, vínculos detectados, actas faltantes..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(1)">← ANTERIOR</button>
+          <button class="btn-next" onclick="goToPanel(3)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 3: RRHH ─── -->
+      <div class="content-panel" id="panel-3">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 4 de 8</div>
+          <h2 class="panel-title">Recursos humanos y dotación</h2>
+          <p class="panel-desc">Revisión del personal, contratos de honorarios y posibles nombramientos de amarre en el período de salida del gobierno anterior.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="alert alert-gold">
+            <span class="alert-icon">⚡</span>
+            <div><strong>Amarres de personal:</strong> El principal riesgo en transición de gobierno es la contratación masiva de honorarios afines al gobierno saliente en los últimos 3 meses. Estos contratos, aunque temporales, pueden generar costos y obligaciones. Identifíquelos con prioridad.</div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Auditoría de dotación</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar contratos de honorarios firmados entre dic. 2025 y mar. 2026</div>
+                <div class="check-item-desc">Solicitar a RRHH listado completo. Verificar si corresponden a necesidades reales del servicio o son incorporaciones de última hora de personas afines al gobierno saliente.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">CONTEXTO 2026</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar asistencia y tareas asignadas de honorarios recientes</div>
+                <div class="check-item-desc">Si un honorario no tiene productos definidos, no registra asistencia o tiene funciones superpuestas con planta/contrata, es señal de contratación irregular.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Auditar jefaturas de departamento asignadas en últimos 6 meses</div>
+                <div class="check-item-desc">Identificar cambios en encargados de área. Si son designaciones directas (no ADP), verificar idoneidad y si corresponde al procedimiento legal.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Comparar dotación efectiva vs. dotación máxima autorizada por Ley de Presupuestos</div>
+                <div class="check-item-desc">La sobredotación es una infracción presupuestaria. Verificar en Ley de Presupuestos 2025 y 2026 el techo autorizado por tipo de cargo.</div>
+                <div class="check-item-meta"><span class="chip chip-blue">VERIFICAR</span><span class="chip chip-gray">DIPRES</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar viáticos, comisiones de servicio y gastos de representación (2024–2026)</div>
+                <div class="check-item-desc">Solicitar listado con destino, justificación y resolución habilitante. Detectar viajes o gastos injustificados, especialmente en período electoral.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Recursos humanos</div>
+            <textarea class="note-textarea" id="note-3" placeholder="Honorarios detectados, jefaturas cuestionables, gastos sin justificación..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(2)">← ANTERIOR</button>
+          <button class="btn-next" onclick="goToPanel(4)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 4: PROBIDAD ─── -->
+      <div class="content-panel" id="panel-4">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 5 de 8</div>
+          <h2 class="panel-title">Probidad y transparencia</h2>
+          <p class="panel-desc">Verificación del cumplimiento de obligaciones de transparencia activa, declaraciones de interés y registros de lobby.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="check-block">
+            <div class="check-block-title">Transparencia activa</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Auditar portal de transparencia activa del servicio (Art. 7 Ley 20.285)</div>
+                <div class="check-item-desc">Verificar que estén publicados y actualizados: organigrama, remuneraciones, contratos, transferencias, actos administrativos, auditorías. Comparar con lo que existe internamente.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">Ley 20.285</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar solicitudes de transparencia pendientes o sin responder</div>
+                <div class="check-item-desc">Si hay solicitudes no respondidas en plazo (20 días hábiles), el nuevo SEREMI es responsable. Identificar y responder a la brevedad para evitar amparos al CPLT.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">CPLT</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar registro de lobby del SEREMI saliente y directivos</div>
+                <div class="check-item-desc">En lobbying.cl: verificar todas las reuniones del titular y jefes de departamento con privados. Cruzar con licitaciones y convenios adjudicados posterior a la reunión.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span><span class="chip chip-gray">Ley 20.730</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar resoluciones exentas emitidas en últimos 6 meses</div>
+                <div class="check-item-desc">Las resoluciones exentas no pasan por toma de razón de Contraloría. Son el vector principal de actos irregulares de fin de gobierno. Revisar todas y verificar su base legal.</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar Declaraciones de Interés y Patrimonio del SEREMI saliente</div>
+                <div class="check-item-desc">Consultar en SIAPER (siaper.contraloria.cl). Si hay omisiones relevantes respecto a sus funciones, puede ser relevante para las causas en curso.</div>
+                <div class="check-item-meta"><span class="chip chip-blue">VERIFICAR</span><span class="chip chip-gray">SIAPER</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Probidad y transparencia</div>
+            <textarea class="note-textarea" id="note-4" placeholder="Incumplimientos de transparencia activa, reuniones de lobby sospechosas, resoluciones sin base legal..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(3)">← ANTERIOR</button>
+          <button class="btn-next" onclick="goToPanel(5)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 5: FINANZAS ─── -->
+      <div class="content-panel" id="panel-5">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 6 de 8</div>
+          <h2 class="panel-title">Situación financiera y presupuesto</h2>
+          <p class="panel-desc">Diagnóstico del estado financiero real del servicio: ejecución presupuestaria, deudas, compromisos y proyecciones.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="alert alert-red">
+            <span class="alert-icon">⚠</span>
+            <div><strong>Contexto nacional 2026:</strong> El Presidente electo Kast ha denunciado un déficit fiscal superior al comprometido. Verifique con especial atención si el presupuesto del servicio fue ejecutado en exceso o si hay deudas ocultas no informadas en el traspaso.</div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Ejecución presupuestaria</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Obtener estado de ejecución presupuestaria por subtítulo al 11 de marzo 2026</div>
+                <div class="check-item-desc">Fuente: SIGFE (sistema financiero del Estado) o solicitar a unidad de finanzas. Subtítulos clave: 21 (personal), 22 (bienes y servicios), 24 (transferencias corrientes), 29 (activos).</div>
+                <div class="check-item-meta"><span class="chip chip-red">DÍA 1</span><span class="chip chip-gray">SIGFE / DIPRES</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar si hay compromisos futuros no presupuestados (deudas ocultas)</div>
+                <div class="check-item-desc">Contratos firmados que generan obligaciones de pago en 2026-2027 sin respaldo presupuestario. Incluye contratos de arrendamiento, servicios continuos y convenios con entidades externas.</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Revisar facturas pendientes de pago (cuentas por pagar)</div>
+                <div class="check-item-desc">Solicitar a contabilidad listado de facturas recibidas y no pagadas. El pago atrasado genera intereses y puede afectar el presupuesto del nuevo año.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar arqueo de caja y fondos por rendir</div>
+                <div class="check-item-desc">Los fondos por rendir (anticipos a funcionarios) deben estar respaldados. Si hay fondos pendientes de rendición de períodos anteriores, son una contingencia financiera.</div>
+                <div class="check-item-meta"><span class="chip chip-blue">VERIFICAR</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Comparar presupuesto asignado 2026 con compromisos ya adquiridos</div>
+                <div class="check-item-desc">Si los contratos y compromisos vigentes superan el presupuesto 2026, el servicio opera en déficit desde el día 1. Reportar al Ministerio y solicitar reasignación urgente.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Situación financiera</div>
+            <textarea class="note-textarea" id="note-5" placeholder="Déficit detectado, facturas pendientes, compromisos sin presupuesto, irregularidades contables..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(4)">← ANTERIOR</button>
+          <button class="btn-next" onclick="goToPanel(6)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 6: CAUSAS LEGALES ─── -->
+      <div class="content-panel" id="panel-6">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 7 de 8</div>
+          <h2 class="panel-title">Causas legales y sumarios</h2>
+          <p class="panel-desc">Mapeo completo de la situación judicial y administrativa del servicio. Contingencias legales que hereda la nueva administración.</p>
+        </div>
+        <div class="panel-body">
+
+          <div class="alert alert-red">
+            <span class="alert-icon">⚠</span>
+            <div><strong>SEREMI MINVU Maule — Causa activa:</strong> La Fiscalía Regional del Maule investiga transferencias por $577M. Si usted es el nuevo SEREMI de MINVU, solicite inmediatamente a Fiscalía el estado de la causa (Art. 182 CPP) y al Ministerio el estado del sumario administrativo.</div>
+          </div>
+
+          <div class="check-block">
+            <div class="check-block-title">Mapeo de contingencias legales</div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Solicitar a unidad jurídica listado de causas judiciales activas</div>
+                <div class="check-item-desc">Incluir: juicios laborales, contencioso-administrativos, recursos de protección, demandas de proveedores. Con monto en riesgo y estado procesal.</div>
+                <div class="check-item-meta"><span class="chip chip-red">DÍA 1</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Consultar estado de sumarios y expedientes administrativos en Contraloría</div>
+                <div class="check-item-desc">En contraloria.cl → Portal Ciudadano. Verificar si hay sumarios abiertos, en tramitación o resoluciones pendientes de cumplimiento.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">Contraloría GR</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Verificar si hay dictámenes de Contraloría sin cumplir</div>
+                <div class="check-item-desc">Los dictámenes son vinculantes. Si la administración anterior no los cumplió, el nuevo SEREMI hereda la responsabilidad. Revisar el registro de dictámenes dirigidos al servicio.</div>
+                <div class="check-item-meta"><span class="chip chip-red">ALTO RIESGO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Consultar si existe investigación penal activa en Fiscalía Regional</div>
+                <div class="check-item-desc">Puede consultar como nueva autoridad del servicio. Si existe causa, solicitar información al fiscal asignado sobre el estado y eventuales medidas cautelares sobre el servicio.</div>
+                <div class="check-item-meta"><span class="chip chip-red">URGENTE</span><span class="chip chip-gray">Art. 182 CPP</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+
+            <div class="check-item-row" onclick="toggleCheck(this)">
+              <div class="check-cb"></div>
+              <div class="check-item-content">
+                <div class="check-item-title">Definir si se presentarán nuevas denuncias o querellas por hallazgos de auditoría</div>
+                <div class="check-item-desc">Si se detectan irregularidades con indicios de delito: denuncia al MP (malversación, fraude al fisco). Si son infracciones administrativas: denuncia a Contraloría para sumario. Plazo: antes de los 90 días.</div>
+                <div class="check-item-meta"><span class="chip chip-gold">PRIORITARIO</span></div>
+              </div>
+              <div class="check-item-flag"><button class="flag-btn" onclick="flagItem(event,this)">⚑ MARCAR RIESGO</button></div>
+            </div>
+          </div>
+
+          <div class="note-box">
+            <div class="note-box-header">📝 Notas — Causas legales</div>
+            <textarea class="note-textarea" id="note-6" placeholder="Causas identificadas, montos en riesgo, plazos procesales, decisiones de denuncia..."></textarea>
+          </div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(5)">← ANTERIOR</button>
+          <button class="btn-next" onclick="goToPanel(7)">SIGUIENTE FASE →</button>
+        </div>
+      </div>
+
+      <!-- ─── PANEL 7: INFORME ─── -->
+      <div class="content-panel" id="panel-7">
+        <div class="panel-header">
+          <div class="panel-eyebrow">Fase 8 de 8 — INFORME FINAL</div>
+          <h2 class="panel-title">Informe y plan de acción</h2>
+          <p class="panel-desc">Resumen ejecutivo de la auditoría con todos sus hallazgos, riesgos identificados y acciones priorizadas para los primeros 90 días.</p>
+        </div>
+        <div class="panel-body">
+
+          <div id="report-summary"></div>
+
+          <div class="check-block">
+            <div class="check-block-title">Conclusiones del SEREMI</div>
+            <div class="note-box">
+              <div class="note-box-header">📋 Evaluación general del estado del servicio</div>
+              <textarea class="note-textarea" id="note-eval" placeholder="Describa su evaluación general del servicio recibido: fortalezas, riesgos principales, situaciones de mayor urgencia..." style="min-height: 120px;"></textarea>
+            </div>
+            <div class="note-box">
+              <div class="note-box-header">🎯 Plan de acción — Primeros 30 días</div>
+              <textarea class="note-textarea" id="note-plan30" placeholder="Acciones inmediatas: ej. solicitar sumario a Contraloría, presentar denuncia a Fiscalía, renovar garantías vencidas, notificar rendiciones pendientes..." style="min-height: 100px;"></textarea>
+            </div>
+            <div class="note-box">
+              <div class="note-box-header">📅 Plan de acción — Días 31–90</div>
+              <textarea class="note-textarea" id="note-plan90" placeholder="Acciones del primer trimestre: auditorías internas, revisión de bases de licitación, protocolos preventivos, mejoras de probidad..." style="min-height: 100px;"></textarea>
+            </div>
+          </div>
+
+          <div id="flags-summary"></div>
+
+        </div>
+        <div class="panel-nav">
+          <button class="btn-prev" onclick="goToPanel(6)">← ANTERIOR</button>
+          <button class="btn-complete" onclick="generateReport()">✓ GENERAR INFORME FINAL</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+let state = {
+  nombre: '', ministerio: '', fecha: '', saliente: '', region: '',
+  currentPanel: 0,
+  panelCompleted: [false,false,false,false,false,false,false,false],
+  checks: {}, flags: {}, notes: {}
+};
+
+const PANELS = [
+  'Recepción y diagnóstico',
+  'Contratos y licitaciones',
+  'Convenios con privados',
+  'Recursos humanos',
+  'Probidad y transparencia',
+  'Situación financiera',
+  'Causas legales',
+  'Informe final'
+];
+
+// ─────────────────────────────────────────────
+//  SETUP
+// ─────────────────────────────────────────────
+function startAudit() {
+  const nombre = document.getElementById('inp-nombre').value.trim();
+  const ministerio = document.getElementById('inp-ministerio').value;
+  const fecha = document.getElementById('inp-fecha').value;
+  const saliente = document.getElementById('inp-saliente').value.trim();
+  const region = document.getElementById('inp-region').value;
+
+  if (!nombre || !ministerio) {
+    alert('Por favor ingrese su nombre y seleccione el ministerio.');
+    return;
+  }
+
+  state.nombre = nombre;
+  state.ministerio = ministerio;
+  state.fecha = fecha || new Date().toLocaleDateString('es-CL');
+  state.saliente = saliente || 'No especificado';
+  state.region = region;
+
+  document.getElementById('sb-name').textContent = nombre;
+  document.getElementById('sb-meta').textContent = ministerio + ' · ' + state.region;
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('audit-screen').style.display = 'block';
+
+  if (fecha) {
+    const d = new Date(fecha + 'T00:00:00');
+    document.getElementById('sb-meta').textContent =
+      ministerio + ' · ' + d.toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'});
+  }
+
+  updateProgress();
+}
+
+// ─────────────────────────────────────────────
+//  NAVIGATION
+// ─────────────────────────────────────────────
+function goToPanel(n) {
+  // Save note from current panel before leaving
+  saveNotes();
+
+  document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+
+  document.getElementById('panel-' + n).classList.add('active');
+  document.getElementById('nav-' + n).classList.add('active');
+  state.currentPanel = n;
+
+  // Scroll to top
+  document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
+
+  // If last panel, build summary
+  if (n === 7) buildSummary();
+
+  updateProgress();
+}
+
+// ─────────────────────────────────────────────
+//  CHECKLIST INTERACTION
+// ─────────────────────────────────────────────
+function toggleCheck(row) {
+  if (row.classList.contains('flagged-item')) return;
+  row.classList.toggle('done');
+  const title = row.querySelector('.check-item-title').textContent;
+  const panel = row.closest('.content-panel').id;
+  const key = panel + '_' + title.slice(0,30);
+  state.checks[key] = row.classList.contains('done');
+  updateProgress();
+  markPanelCompleted(row);
+}
+
+function flagItem(e, btn) {
+  e.stopPropagation();
+  const row = btn.closest('.check-item-row');
+  row.classList.toggle('flagged-item');
+  row.classList.remove('done');
+  const title = row.querySelector('.check-item-title').textContent;
+  const panel = row.closest('.content-panel').id;
+  const key = panel + '_' + title.slice(0,30);
+  state.flags[key] = { panel: panel, title: title, flagged: row.classList.contains('flagged-item') };
+  updateProgress();
+}
+
+function markPanelCompleted(row) {
+  const panel = row.closest('.content-panel');
+  const panelId = parseInt(panel.id.replace('panel-',''));
+  const all = panel.querySelectorAll('.check-item-row');
+  const done = panel.querySelectorAll('.check-item-row.done');
+  if (done.length === all.length && all.length > 0) {
+    state.panelCompleted[panelId] = true;
+    document.getElementById('nav-' + panelId).classList.add('completed');
+  } else {
+    state.panelCompleted[panelId] = false;
+    document.getElementById('nav-' + panelId).classList.remove('completed');
+  }
+}
+
+// ─────────────────────────────────────────────
+//  NOTES
+// ─────────────────────────────────────────────
+function saveNotes() {
+  for (let i = 0; i < 7; i++) {
+    const el = document.getElementById('note-' + i);
+    if (el) state.notes['note-' + i] = el.value;
+  }
+}
+
+// ─────────────────────────────────────────────
+//  PROGRESS
+// ─────────────────────────────────────────────
+function updateProgress() {
+  const allChecks = document.querySelectorAll('.check-item-row');
+  const doneChecks = document.querySelectorAll('.check-item-row.done');
+  const pct = allChecks.length > 0 ? Math.round((doneChecks.length / allChecks.length) * 100) : 0;
+  document.getElementById('main-progress').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+}
+
+// ─────────────────────────────────────────────
+//  SUMMARY BUILD
+// ─────────────────────────────────────────────
+function buildSummary() {
+  const flagged = document.querySelectorAll('.check-item-row.flagged-item');
+  const done = document.querySelectorAll('.check-item-row.done');
+  const all = document.querySelectorAll('.check-item-row');
+  const pct = all.length > 0 ? Math.round((done.length / all.length) * 100) : 0;
+
+  let riskColor = 'green';
+  let riskText = 'BAJO';
+  if (flagged.length >= 5) { riskColor = 'red'; riskText = 'ALTO'; }
+  else if (flagged.length >= 2) { riskColor = 'gold'; riskText = 'MEDIO'; }
+
+  let summaryHTML = `
+    <div class="cards-grid" style="margin-bottom:1.5rem;">
+      <div class="info-card ${riskColor}">
+        <div class="info-card-label">Nivel de Riesgo General</div>
+        <div class="info-card-value">${riskText}</div>
+        <div class="info-card-sub">${flagged.length} ítems marcados como riesgo</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Avance de Auditoría</div>
+        <div class="info-card-value">${pct}%</div>
+        <div class="info-card-sub">${done.length} de ${all.length} ítems revisados</div>
+      </div>
+      <div class="info-card red">
+        <div class="info-card-label">Hallazgos Críticos</div>
+        <div class="info-card-value">${flagged.length}</div>
+        <div class="info-card-sub">Requieren acción inmediata</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('report-summary').innerHTML = summaryHTML;
+
+  // Build flagged items table
+  if (flagged.length > 0) {
+    let flagsHTML = `
+      <div class="check-block">
+        <div class="check-block-title">Hallazgos marcados como riesgo</div>
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Fase</th>
+              <th>Ítem</th>
+              <th>Acción recomendada</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    flagged.forEach(row => {
+      const panelId = parseInt(row.closest('.content-panel').id.replace('panel-',''));
+      const title = row.querySelector('.check-item-title').textContent;
+      const desc = row.querySelector('.check-item-desc')?.textContent || '';
+      flagsHTML += `
+        <tr class="risk-alto">
+          <td><span class="risk-badge risk-alto">${PANELS[panelId]}</span></td>
+          <td>${title}</td>
+          <td style="font-size:0.78rem; color: var(--ink3);">Documentar y reportar a Contraloría o Fiscalía según corresponda</td>
+        </tr>
+      `;
+    });
+
+    flagsHTML += '</tbody></table></div>';
+    document.getElementById('flags-summary').innerHTML = flagsHTML;
+  } else {
+    document.getElementById('flags-summary').innerHTML = `
+      <div class="alert alert-green">
+        <span class="alert-icon">✓</span>
+        <div>No se han marcado ítems de riesgo en esta auditoría. Si el proceso está completo, el servicio presenta un perfil de riesgo bajo.</div>
+      </div>
+    `;
+  }
+}
+
+// ─────────────────────────────────────────────
+//  GENERATE REPORT
+// ─────────────────────────────────────────────
+function generateReport() {
+  saveNotes();
+  buildSummary();
+
+  const flagged = document.querySelectorAll('.check-item-row.flagged-item');
+  const done = document.querySelectorAll('.check-item-row.done');
+  const all = document.querySelectorAll('.check-item-row');
+
+  let notes = '';
+  for (let i = 0; i < 7; i++) {
+    const n = document.getElementById('note-' + i);
+    if (n && n.value.trim()) {
+      notes += `\n--- ${PANELS[i]} ---\n${n.value}\n`;
+    }
+  }
+  const evalNote = document.getElementById('note-eval')?.value || '';
+  const plan30 = document.getElementById('note-plan30')?.value || '';
+  const plan90 = document.getElementById('note-plan90')?.value || '';
+
+  let flagsList = [];
+  flagged.forEach(row => {
+    const panelId = parseInt(row.closest('.content-panel').id.replace('panel-',''));
+    flagsList.push(`[${PANELS[panelId]}] ${row.querySelector('.check-item-title').textContent}`);
+  });
+
+  const content = `
+INFORME DE AUDITORÍA DE ASUNCIÓN DE CARGO
+==========================================
+SEREMI: ${state.nombre}
+Ministerio: ${state.ministerio}
+Región: ${state.region}
+Fecha de asunción: ${state.fecha}
+SEREMI saliente: ${state.saliente}
+Fecha del informe: ${new Date().toLocaleDateString('es-CL')}
+
+RESUMEN EJECUTIVO
+-----------------
+Ítems auditados: ${all.length}
+Ítems completados: ${done.length} (${Math.round(done.length/all.length*100)}%)
+Hallazgos de riesgo: ${flagged.length}
+
+HALLAZGOS DE RIESGO IDENTIFICADOS
+----------------------------------
+${flagsList.length > 0 ? flagsList.join('\n') : 'Sin hallazgos de riesgo registrados.'}
+
+NOTAS POR FASE
+--------------
+${notes || 'Sin notas registradas.'}
+
+EVALUACIÓN GENERAL
+------------------
+${evalNote || '(Sin registrar)'}
+
+PLAN DE ACCIÓN — PRIMEROS 30 DÍAS
+-----------------------------------
+${plan30 || '(Sin registrar)'}
+
+PLAN DE ACCIÓN — DÍAS 31–90
+-----------------------------
+${plan90 || '(Sin registrar)'}
+
+==========================================
+Documento generado por SEREMI Auditoría — Protocolo de Asunción de Cargo
+Región del Maule · ${new Date().toLocaleDateString('es-CL')}
+  `.trim();
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Informe_Auditoria_${state.ministerio.split(' ')[0]}_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  alert('✓ Informe generado exitosamente. El archivo se ha descargado como .txt. Puede abrirlo en Word o cualquier editor de texto para finalizar.');
+}
+
+function exportReport() {
+  generateReport();
+}
+
+// Auto-set today's date
+document.addEventListener('DOMContentLoaded', () => {
+  const d = document.getElementById('inp-fecha');
+  if (d) d.value = new Date().toISOString().slice(0,10);
+});
+</script>
+</body>
+</html>
